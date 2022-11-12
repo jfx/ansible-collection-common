@@ -1,0 +1,83 @@
+---
+- name: Check if last version already installed
+  ansible.builtin.stat:
+    path: /opt/{{ io_product }}/v{{ io_version }}/{{ io_product }}
+  register: last_version
+
+- name: Create temporary directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: temp
+  register: temp_dir
+  when: not last_version.stat.exists
+
+- name: Download product
+  ansible.builtin.get_url:
+    url: "{{ io_download_link }}"
+    dest: "{{ temp_dir.path }}/{{ io_package_name }}.{{ io_package_ext }}"
+    mode: 0644
+  when: not last_version.stat.exists
+
+- name: Unarchive package
+  ansible.builtin.unarchive:
+    src: "{{ temp_dir.path }}/{{ io_package_name }}.{{ io_package_ext }}"
+    dest: "{{ temp_dir.path }}/"
+    mode: 0644
+    remote_src: true
+  when: (not last_version.stat.exists) and (io_package_ext|length > 0)
+
+- name: Create product directory
+  ansible.builtin.file:
+    path: /opt/{{ io_product }}/v{{ io_version }}
+    state: directory
+    mode: 0755
+
+- name: Copy product when unarchived
+  ansible.builtin.copy:
+    src: "{{ temp_dir.path }}/{{ io_package_name }}/{{ io_product }}"
+    dest: /opt/{{ io_product }}/v{{ io_version }}
+    mode: a+x
+    remote_src: true
+  when: (not last_version.stat.exists) and (io_package_ext|length > 0)
+
+- name: Copy product when binary
+  ansible.builtin.copy:
+    src: "{{ temp_dir.path }}/{{ io_package_name }}"
+    dest: /opt/{{ io_product }}/v{{ io_version }}/{{ io_product }}
+    mode: a+x
+    remote_src: true
+  when: (not last_version.stat.exists) and (io_package_ext|length == 0)
+
+- name: Remove the temporary directory
+  ansible.builtin.file:
+    path: "{{ temp_dir.path }}"
+    state: absent
+  when: temp_dir.path is defined
+
+- name: Create current symlink
+  ansible.builtin.file:
+    dest: /opt/{{ io_product }}/current
+    src: /opt/{{ io_product }}/v{{ io_version }}
+    state: link
+  register: symlink
+  when: io_deploy
+
+- name: Save symlink changed value
+  vars:
+    symlink_changed:
+      - key: "{{ io_product }}"
+        value: "{{ symlink.changed | default(false) }}"
+  ansible.builtin.set_fact:
+    io_changed: "{{ (io_changed | default({})) | combine(symlink_changed | items2dict) }}"
+
+- name: Create symlink in /usr/local/bin
+  ansible.builtin.file:
+    dest: /usr/local/bin/{{ io_product }}
+    src: /opt/{{ io_product }}/current/{{ io_product }}
+    state: link
+  when: io_deploy
+
+- name: Print successfull deployment
+  ansible.builtin.debug:
+    msg: "{{ io_product }} {{ io_version }} is deployed"
+  when: io_changed[io_product]

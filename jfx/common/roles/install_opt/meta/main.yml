@@ -1,0 +1,31 @@
+---
+galaxy_info:
+  role_name: install_opt
+  namespace: jfx
+  author: FX Soubirou
+  description: Ansible role to download and install a product in /opt directory.
+
+  license: MIT
+
+  min_ansible_version: "2.10"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+
+  galaxy_tags:
+    - common
+    - debian
+    - installation
+    - opt
+    - ubuntu
+
+
+dependencies: []

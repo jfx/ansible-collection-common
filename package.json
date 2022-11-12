@@ -1,0 +1,51 @@
+{
+  "name": "ansible-common",
+  "version": "0.0.0-semantic-release",
+  "description": "Ansible collections of common roles for Ubuntu and Debian Operating Systems",
+  "engines": {
+    "node": ">=12.0",
+    "yarn": ">=1.17"
+  },
+  "devDependencies": {
+    "@semantic-release/exec": "^6.0.3",
+    "@semantic-release/gitlab": "^9.4.2",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "semantic-release": "^19.0.5"
+  },
+  "scripts": {
+    "commit": "cz"
+  },
+  "release": {
+    "branches": ["main", "master"],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/gitlab",
+        {
+          "assets": [
+            {
+              "path": "update/"
+            }
+          ]
+        }
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ttps://gitlab.com/op_so/ansible/common.git"
+  },
+  "author": "FX Soubirou",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/op_so/ansible/common/issues"
+  },
+  "homepage": "https://gitlab.com/op_so/ansible/common"
+}

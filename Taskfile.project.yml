@@ -1,0 +1,50 @@
+---
+# https://taskfile.dev
+#
+# Taskfile.project.yml for your main project tasks. Must be commited.
+# If you always want the last version of the task templates, add this line in your .gitignore file
+# /Taskfile.d/
+#
+version: '3'
+
+vars:
+  # TO MODIFY: Task templates to download separated by comma
+  # Example: TASK_TEMPLATES: go,lint,yarn
+  TASK_TEMPLATES: ansible,git,lint,yarn
+  COLLECTION_DIR: jfx/common
+
+tasks:
+
+  00-init-task:
+    desc: "[PROJECT] Init and download tasks templates."
+    cmds:
+      - date > {{.FILE_TASK_START}}
+      - defer: rm -f {{.FILE_TASK_START}}
+      - mkdir -p "{{.DIR_TASKFILES}}"
+      - task 10-t-activate TEMPLATE={{.TASK_TEMPLATES}}
+      - task 20-t-download
+    silent: true
+
+  10-ansible-test-local:
+    desc: "[PROJECT] Ansible tests local."
+    cmds:
+      - task ansible:playbook A="tests/local/test.yml -i tests/local/inventory --syntax-check"
+      - task ansible:lint A="--force-color --offline -p tests/local/test.yml"
+    silent: true
+
+  10-ansible-test-remote:
+    desc: "[PROJECT] Ansible tests remote (VM)."
+    cmds:
+      - task ansible:playbook A="tests/remote/test.yml -i tests/remote/inventory"
+    silent: true
+
+  20-pre-commit:
+    desc: "[PROJECT] Pre-commit checks."
+    cmds:
+      - date > {{.FILE_TASK_START}}
+      - defer: rm -f {{.FILE_TASK_START}}
+      - cp -f README.md {{.COLLECTION_DIR}}/README.md
+      - task lint:all MEX='\"#node_modules\" \"#.node_cache\"'
+      - task 00:10-ansible-test-local
+      - echo "" && echo "Checks Start $(cat {{.FILE_TASK_START}}) - End $(date)"
+    silent: true

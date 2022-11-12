@@ -1,0 +1,10 @@
+---
+extends: default
+
+ignore: |
+  .node_cache/
+  node_modules/
+  Taskfile.d/
+
+rules:
+  line-length: disable

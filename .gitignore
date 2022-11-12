@@ -1,0 +1,7 @@
+/.host/
+/.node_cache/
+/.vscode/
+/node_modules/
+/Taskfile.d/
+.DS_Store
+*.log

@@ -1,0 +1,34 @@
+---
+namespace: jfx
+
+name: common
+
+version: 1.0.0
+
+readme: README.md
+
+authors:
+  - FX Soubirou <soubirou@yahoo.fr>
+
+description: a collection of common roles for Ubuntu and Debian Operating Systems.
+
+license:
+  - MIT
+
+tags:
+  - common
+  - debian
+  - installation
+  - ubuntu
+
+dependencies: {}
+
+repository: https://gitlab.com/op_so/ansible/common
+
+documentation: https://gitlab.com/op_so/ansible/common/-/blob/main/README.md
+
+homepage: https://gitlab.com/op_so/ansible/common
+
+issues: https://gitlab.com/op_so/ansible/common/-/issues
+
+build_ignore: []

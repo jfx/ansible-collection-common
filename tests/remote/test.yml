@@ -1,0 +1,13 @@
+---
+- name: Test playbook
+  hosts: ansible-test
+  gather_facts: true
+  become: true
+
+  environment:
+    PY_COLORS: '1'
+    ANSIBLE_FORCE_COLOR: '1'
+
+  roles:
+    - role: 'jfx/system/roles/os_update'
+    - role: 'jfx/system/roles/reboot'
