@@ -52,7 +52,16 @@
   ansible.builtin.file:
     path: "{{ temp_dir.path }}"
     state: absent
-  when: temp_dir.path is defined
+  when: temp_dir.path is defined and (not io_temp_dir_keep)
+
+- name: Save temp directory path
+  vars:
+    temp_dir_path:
+      - key: "{{ io_product }}"
+        value: "{{ temp_dir.path }}"
+  ansible.builtin.set_fact:
+    io_temp_dir_path: "{{ (io_temp_dir_path | default({})) | combine(temp_dir_path | items2dict) }}"
+  when: temp_dir.path is defined and (io_temp_dir_keep)
 
 - name: Create current symlink
   ansible.builtin.file:

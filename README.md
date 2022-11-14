@@ -46,6 +46,18 @@ otherwise the value in the dictionary is `false`.
 - `io_deploy`
   - Default: `true`
   - Description: Creation of 2 links to point to the new version.
+- `io_temp_dir_keep`
+  - Default: `false`
+  - Description: If `true` the temp directory for download is not deleted.
+
+### install_opt role output
+
+If a new product is deployed (change of `/opt/<product_name>/current/` symlink), the dictionary `io_changed` is returned with a `true` value:
+`io_changed: {'<product_name>': true}`
+otherwise the value in the dictionary is `false`.
+
+If a temp directory is created to download the product and `io_temp_dir_keep` is set to `true`, the dictionary `io_temp_dir_path` is returned with the path of the temp directory path:
+`io_temp_dir_path: {'<product_name>': '<temp_dir_path>'}`
 
 ## Getting Started
 
@@ -81,6 +93,8 @@ example:
         io_package_name: prometheus-{{ prometheus_version }}.linux-{{ arch }}
         io_package_ext: tar.gz
         io_download_link: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ io_package_name }}.{{ io_package_ext }}
+        io_deploy: false
+        io_temp_dir_keep: true
 ```
 
 ## Authors

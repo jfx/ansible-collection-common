@@ -60,6 +60,9 @@ example:
 * `io_deploy`
   * Default: `true`
   * Description: Creation of 2 links to point to the new version.
+* `io_temp_dir_keep`
+  * Default: `false`
+  * Description: If `true` the temp directory for download is not deleted.
 
 ## Authors
 
