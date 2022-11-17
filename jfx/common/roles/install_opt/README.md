@@ -1,4 +1,4 @@
-# Ansible OS update role
+# Ansible install opt role
 
 A role to download and install a product in /opt directory.
 
@@ -20,7 +20,7 @@ In order to use:
 ansible-galaxy collection install jfx.common
 ```
 
-* Then use the roles from the collection in the playbook:
+* Then use the role from the collection in the playbook:
 
 example:
 

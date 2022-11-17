@@ -59,6 +59,21 @@ otherwise the value in the dictionary is `false`.
 If a temp directory is created to download the product and `io_temp_dir_keep` is set to `true`, the dictionary `io_temp_dir_path` is returned with the path of the temp directory path:
 `io_temp_dir_path: {'<product_name>': '<temp_dir_path>'}`
 
+## nginx role
+
+A role to install and configure nginx server.
+
+### nginx role variables
+
+- `nginx_sites:`
+  - Required - example: `- my-site`
+  - Description: List of sites to deploy.
+
+### nginx files
+
+- `nginx-<my-site>.j2`:
+A configuration file named `nginx-<my-site>.j2`of a site `my-site` must be located in `{{ playbook_dir }}/templates/` directory.
+
 ## Getting Started
 
 ### Requirements
@@ -95,6 +110,11 @@ example:
         io_download_link: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ io_package_name }}.{{ io_package_ext }}
         io_deploy: false
         io_temp_dir_keep: true
+    - role: nginx
+      vars:
+        nginx_sites:
+          - my-site
+          ...
 ```
 
 ## Authors

@@ -5,3 +5,4 @@
 
   roles:
     - role: 'jfx/common/roles/install_opt'
+    - role: 'jfx/common/roles/nginx'

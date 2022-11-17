@@ -1,0 +1,45 @@
+---
+- name: Install nginx
+  ansible.builtin.apt:
+    pkg:
+      - nginx
+    update_cache: true
+    state: latest  # noqa package-latest
+
+- name: Enable nginx service
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Remove default site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify:
+    - Test nginx configuration
+    - Restart nginx
+
+- name: Configure nginx sites
+  ansible.builtin.template:
+    src: "{{ playbook_dir }}/templates/nginx-{{ item }}.j2"
+    dest: /etc/nginx/sites-available/{{ item }}
+    owner: root
+    group: root
+    mode: '0644'
+  with_items: "{{ nginx_sites }}"
+  notify:
+    - Test nginx configuration
+    - Restart nginx
+
+- name: Enable nginx sites
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/{{ item }}
+    dest: /etc/nginx/sites-enabled/{{ item }}
+    owner: root
+    group: root
+    state: link
+  with_items: "{{ nginx_sites }}"
+  notify:
+    - Test nginx configuration
+    - Restart nginx

@@ -9,5 +9,5 @@
     ANSIBLE_FORCE_COLOR: '1'
 
   roles:
-    - role: 'jfx/system/roles/os_update'
-    - role: 'jfx/system/roles/reboot'
+    - role: 'jfx/common/roles/install_opt'
+    - role: 'jfx/common/roles/nginx'

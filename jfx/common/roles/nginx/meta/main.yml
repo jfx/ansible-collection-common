@@ -1,0 +1,30 @@
+---
+galaxy_info:
+  role_name: nginx
+  namespace: jfx
+  author: FX Soubirou
+  description: Ansible role to install a nginx server.
+
+  license: MIT
+
+  min_ansible_version: "2.10"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - buster
+        - bullseye
+
+  galaxy_tags:
+    - common
+    - debian
+    - nginx
+    - ubuntu
+
+
+dependencies: []
