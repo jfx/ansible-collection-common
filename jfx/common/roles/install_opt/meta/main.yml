@@ -3,7 +3,7 @@ galaxy_info:
   role_name: install_opt
   namespace: jfx
   author: FX Soubirou
-  description: Ansible role to download and install a product in /opt directory.
+  description: Ansible role that downloads and installs a product in /opt directory.
 
   license: MIT
 

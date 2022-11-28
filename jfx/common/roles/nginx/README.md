@@ -1,6 +1,6 @@
 # Ansible nginx role
 
-A role to download and install a nginx server.
+A role that downloads and installs a nginx server.
 
 [![Ansible Galaxy](https://shields.io/badge/Ansible_Galaxy-informational?logo=ansible&style=flat-square)](https://galaxy.ansible.com/jfx/system) Ansible Galaxy collection.
 
@@ -40,9 +40,9 @@ example:
 
 ### nginx role variables
 
-* `nginx_sites:`
-  * Required - example: `- my-site`
-  * Description: List of sites to deploy.
+| Variables      | Description                                   | Default      |
+| -------------- | --------------------------------------------- | ------------ |
+| `nginx_sites:` | List of sites to deploy. example: `- my-site` | **Required** |
 
 ### nginx files
 

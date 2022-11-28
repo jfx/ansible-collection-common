@@ -14,9 +14,14 @@ An [Ansible](https://www.ansible.com/) collection of common roles for Ubuntu and
 
 This collections includes:
 
+| Roles                            | Description                                                     |
+| -------------------------------- | --------------------------------------------------------------- |
+| [install_opt](#install_opt-role) | A role that downloads and installs a product in /opt directory. |
+| [nginx](#nginx-role)             | A role that installs and configures nginx server.               |
+
 ## install_opt role
 
-A role to download and install a product in /opt directory with the following structure: `/opt/<product_name>/v<version>/<product_name>`.
+A role that downloads and installs a product in /opt directory with the following structure: `/opt/<product_name>/v<version>/<product_name>`.
 Two symlinks are also created, if `io_deploy` variable is `true` (default value):
 
 - `/usr/local/bin/<product_name> -> /opt/<product_name>/current/<product_name>`
@@ -28,27 +33,15 @@ otherwise the value in the dictionary is `false`.
 
 ### install_opt role variables
 
-- `io_product`
-  - Required - example: `prometheus`
-  - Description: Name of th product.
-- `io_version`
-  - Required - example: `2.40.1`
-  - Description: Version of the product.
-- `io_package_name`
-  - Required - example: `prometheus-2.40.1.linux-amd64`
-  - Description: Package name to download without extension.
-- `io_package_ext`
-  - Default: "" - example: `tar.gz`
-  - Description: Define the type of compression. "" for no compression.
-- `io_download_link`
-  - Required - example: `https://github.com/prometheus/prometheus/releases/download/v2.40.1/{{ io_package_name }}.{{ io_package_ext }}`
-  - Description: URL to download product.
-- `io_deploy`
-  - Default: `true`
-  - Description: Creation of 2 links to point to the new version.
-- `io_temp_dir_keep`
-  - Default: `false`
-  - Description: If `true` the temp directory for download is not deleted.
+| Variables          | Description                                                                                             | Default      |
+| ------------------ | ------------------------------------------------------------------------------------------------------- | ------------ |
+| `io_product`       | Name of the product. Example: `prometheus`                                                              | **Required** |
+| `io_version`       | Version of the product. Example: `2.40.1`                                                               | **Required** |
+| `io_package_name`  | Package name to download without extension. Example: `prometheus-2.40.1.linux-amd64`                    | **Required** |
+| `io_package_ext`   | Define the type of compression. "" for no compression. Example: `tar.gz`                                | **Required** |
+| `io_download_link` | URL to download product. Example: `https://github.com/ ... /{{ io_package_name }}.{{ io_package_ext }}` | **Required** |
+| `io_deploy`        | Creation of 2 links to point to the new version.                                                        | `true`       |
+| `io_temp_dir_keep` | If `true` the temp directory for download is not deleted.                                               | `false`      |
 
 ### install_opt role output
 
@@ -61,13 +54,13 @@ If a temp directory is created to download the product and `io_temp_dir_keep` is
 
 ## nginx role
 
-A role to install and configure nginx server.
+A role that installs and configures nginx server.
 
 ### nginx role variables
 
-- `nginx_sites:`
-  - Required - example: `- my-site`
-  - Description: List of sites to deploy.
+| Variables      | Description                                   | Default      |
+| -------------- | --------------------------------------------- | ------------ |
+| `nginx_sites:` | List of sites to deploy. example: `- my-site` | **Required** |
 
 ### nginx files
 

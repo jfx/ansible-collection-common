@@ -3,7 +3,7 @@ galaxy_info:
   role_name: nginx
   namespace: jfx
   author: FX Soubirou
-  description: Ansible role to install a nginx server.
+  description: Ansible role that installs a nginx server.
 
   license: MIT
 
